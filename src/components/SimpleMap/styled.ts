@@ -40,9 +40,9 @@ export const SimpleMapPopup = styled.div<{ isActive: boolean }>`
     bottom: 4px;
     left: 0;
     transform: translateX(-50%);
-    max-width: 212px;
+    width: 212px;
     padding: 12px;
-    background-color: rgba(255,255,255,0.2);
+    background-color: rgba(0,0,0,0.6);
     color: white;
     border-radius: 5px;
 

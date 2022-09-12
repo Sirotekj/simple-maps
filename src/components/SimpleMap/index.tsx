@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useRef } from "react"
+import React, { useState, useRef } from "react"
 import useMouse from '@react-hook/mouse-position'
 import {
   ComposableMap,
@@ -18,9 +18,6 @@ type Texts = {
   date: string
   color: string
 }[]
-type Props = {
-  setTooltipContent: any
-}
 //const geoUrl = "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json"
 //const geoUrl = "https://docs.rferl.org/Infographics/2022/2022_09/Tajikistan_GBAO/geojson/world-countries.json"
 const geoUrl = "https://docs.rferl.org/Infographics/2022/2022_09/Tajikistan_GBAO/geojson/tajikistan-with-regions_.json"
@@ -28,9 +25,10 @@ const geoUrl = "https://docs.rferl.org/Infographics/2022/2022_09/Tajikistan_GBAO
 //const geoUrl = "tajikistan-with-regions_.json"
 
 
-const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
+const SimpleMap = () => {
 
-  const months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const popupText = "On / at least / people were known to have been killed in the crackdown in ";
 
   const dataObject = [
     {
@@ -90,7 +88,16 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
   const openPopup = (id:number) => {
     console.log(id)
     setPopup(true);
-    setPopupContent(dataObject[(id-1)].people.toString());
+    setPopupContent(
+      dataObject[(id-1)].city +
+      "<br>" +
+      popupText.split("/")[0] +
+      dataObject[(id-1)].date +
+      popupText.split("/")[1] +
+      dataObject[(id-1)].people +
+      popupText.split("/")[2] +
+      dataObject[(id-1)].city
+    );
   }
 
   const maxScale = 46;
@@ -100,9 +107,6 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
   const circleScale = (_people: number) => {
     return Math.sqrt((_people)/Math.PI)*maxScale/Math.sqrt((maxValue)/Math.PI)
   }
-
-  const [x, setX] = useState()
-  const [y, setY] = useState()
 
   const ref = React.useRef<HTMLDivElement>(null)
   const mouse = useMouse(ref, {
@@ -116,7 +120,7 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
         {dataObject.map(({ id, date, color }) => {
           return(
             <SimpleMapLegendItem key={id} color={ color }>
-              {date=="unknown date"?date:months_arr[Number(date.split("/")[0])-1]}
+              {date=="unknown date"?date:monthsArr[Number(date.split("/")[0])-1]+ " " + date.split("/")[1]}
             </SimpleMapLegendItem>
           )
         })}
@@ -150,8 +154,7 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
         </ZoomableGroup>
       </ComposableMap>
       <SimpleMapPopup isActive={ popup } style={{top: mouse.y+"px", left: mouse.x+"px"}}>
-        <div>
-        {popupContent}
+        <div dangerouslySetInnerHTML={{__html:popupContent}}>
         </div>
       </SimpleMapPopup>
     </SimpleMapContainer>
