@@ -6,5 +6,8 @@ export const SimpleMapContainer = styled.div`
   svg {
     fill: #1A1818;
     stroke: #FFF;
+    .rsm-marker {
+      stroke-width: 0.5;
+    }
   }
 `

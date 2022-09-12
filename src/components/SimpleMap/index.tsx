@@ -3,6 +3,7 @@ import {
   ComposableMap,
   Geographies,
   Geography,
+  ZoomableGroup,
   Marker
 } from "react-simple-maps"
 import { SimpleMapContainer } from './styled'
@@ -11,7 +12,8 @@ type Texts = {
   city: string
   lat: number,
   lng: number,
-  people: number
+  people: number,
+  date: string
 }[]
 //const geoUrl = "https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries.json"
 //const geoUrl = "https://docs.rferl.org/Infographics/2022/2022_09/Tajikistan_GBAO/geojson/world-countries.json"
@@ -26,16 +28,42 @@ const SimpleMap = () => {
       city:"Rushon",
       lat: 37.9429401,
       lng: 71.5516857,
-      people: 17
+      people: 17,
+      date: "unknown date"
+    },{
+      city:"Rushon",
+      lat: 37.9429401,
+      lng: 71.5516857,
+      people: 5,
+      date: "5/31/2022"
+    },{
+      city:"Rushon",
+      lat: 37.9429401,
+      lng: 71.5516857,
+      people: 4,
+      date: "5/18/2022"
+    },{
+      city:"Rushon",
+      lat: 37.9429401,
+      lng: 71.5516857,
+      people: 3,
+      date: "5/19/2022"
     },{
       city:"Khorug",
       lat: 37.4761811,
       lng: 71.5424160,
-      people: 5
+      people: 2,
+      date: "6/12/2022"
+    },{
+      city:"Khorug",
+      lat: 37.4761811,
+      lng: 71.5424160,
+      people: 1,
+      date: "5/22/2022"
     }
   ] as Texts
 
-  const maxScale = 20;
+  const maxScale = 46;
   const dataObjectScales = dataObject.map((scale) => scale.people)
   const maxValue = Math.max(...dataObjectScales)
 
@@ -57,20 +85,22 @@ const SimpleMap = () => {
             scale: 6600,
           }}
       >
-        <Geographies geography={geoUrl}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
-              <Geography key={geo.rsmKey} geography={geo} />
-            ))
-          }
-        </Geographies>
-        {dataObject.map(({ city, lng, lat, people }) => {
-        return (
-          <Marker key={city} coordinates={[lng, lat]}>
-            <circle fill="#7D161D" stroke="#FFF" r={circleScale(people)} />
-          </Marker>
-        );
-      })}
+        <ZoomableGroup>
+          <Geographies geography={geoUrl}>
+            {({ geographies }) =>
+              geographies.map((geo) => (
+                <Geography key={geo.rsmKey} geography={geo} />
+              ))
+            }
+          </Geographies>
+          {dataObject.map(({ city, lng, lat, people }) => {
+          return (
+            <Marker key={city} coordinates={[lng, lat]}>
+              <circle fill="#7D161D" stroke="#FFF" r={circleScale(people)} />
+            </Marker>
+            );
+          })}
+        </ZoomableGroup>
       </ComposableMap>
     </SimpleMapContainer>
   )
