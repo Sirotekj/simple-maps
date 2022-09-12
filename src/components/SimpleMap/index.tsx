@@ -85,7 +85,7 @@ const SimpleMap = () => {
             scale: 6600,
           }}
       >
-        <ZoomableGroup>
+        <ZoomableGroup minZoom={1} maxZoom={3}>
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map((geo) => (
