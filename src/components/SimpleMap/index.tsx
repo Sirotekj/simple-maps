@@ -28,7 +28,7 @@ const geoUrl = "https://docs.rferl.org/Infographics/2022/2022_09/Tajikistan_GBAO
 const SimpleMap = () => {
 
   const monthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const popupText = "On / at least / people were known to have been killed in the crackdown in ";
+  const popupText = "On / at least /&nbsp;people were known to have been killed in the crackdown in ";
 
   const dataObject = [
     {
@@ -38,7 +38,7 @@ const SimpleMap = () => {
       lng: 71.5516857,
       people: 17,
       date: "unknown date",
-      color: "rgba(100,100,100,0.6)"
+      color: "rgba(100,100,100,0.8)"
     },{
       id: 2,
       city:"Rushon",
@@ -46,7 +46,7 @@ const SimpleMap = () => {
       lng: 71.5516857,
       people: 5,
       date: "5/31/2022",
-      color: "rgba(125,22,29,0.5)"
+      color: "#7D161D"//"rgba(125,22,29,0.5)"
     },{
       id: 3,
       city:"Rushon",
@@ -54,7 +54,7 @@ const SimpleMap = () => {
       lng: 71.5516857,
       people: 4,
       date: "5/18/2022",
-      color: "rgba(125,22,29,0.7)"
+      color: "#A71D26"//"rgba(125,22,29,0.7)"
     },{
       id: 4,
       city:"Rushon",
@@ -62,7 +62,7 @@ const SimpleMap = () => {
       lng: 71.5516857,
       people: 3,
       date: "5/19/2022",
-      color: "rgba(125,22,29,1)"
+      color:"#D12430"//"rgba(125,22,29,1)"
     },{
       id: 5,
       city:"Khorug",
@@ -70,7 +70,7 @@ const SimpleMap = () => {
       lng: 71.5424160,
       people: 2,
       date: "6/12/2022",
-      color: "rgba(234,105,3,0.4)"
+      color: "#EA6903"//"rgba(234,105,3,0.4)"
     },{
       id: 6,
       city:"Khorug",
@@ -78,7 +78,7 @@ const SimpleMap = () => {
       lng: 71.5424160,
       people: 1,
       date: "5/22/2022",
-      color: "rgba(234,105,3,0.6)"
+      color: "#EE8735"//"rgba(234,105,3,0.6)"
     }
   ] as Texts
 
