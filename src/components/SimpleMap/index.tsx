@@ -1,4 +1,5 @@
-import React, { FC, useEffect, useState } from "react"
+import React, { FC, useEffect, useState, useRef } from "react"
+import useMouse from '@react-hook/mouse-position'
 import {
   ComposableMap,
   Geographies,
@@ -82,9 +83,12 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
   ] as Texts
 
   const [popup, setPopup] = useState(false)
+  const [popupContent, setPopupContent] = useState("");
 
   const openPopup = (id:number) => {
     console.log(id)
+    setPopup(true);
+    setPopupContent(dataObject[(id-1)].people.toString());
   }
 
   const maxScale = 46;
@@ -95,21 +99,26 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
     return Math.sqrt((_people)/Math.PI)*maxScale/Math.sqrt((maxValue)/Math.PI)
   }
 
-  useEffect(() => {
+  const [x, setX] = useState()
+  const [y, setY] = useState()
 
-  }, []);
+  const ref = React.useRef<HTMLDivElement>(null)
+  const mouse = useMouse(ref, {
+    enterDelay: 100,
+    leaveDelay: 100,
+  })
 
   return (
-    <SimpleMapContainer>
-    <SimpleMapLegend>
-      {dataObject.map(({ id, date, color }) => {
-        return(
-          <SimpleMapLegendItem key={id} color={ color }>
-            {date}
-          </SimpleMapLegendItem>
-        )
-      })}
-    </SimpleMapLegend>
+    <SimpleMapContainer ref={ref}>
+      <SimpleMapLegend>
+        {dataObject.map(({ id, date, color }) => {
+          return(
+            <SimpleMapLegendItem key={id} color={ color }>
+              {date}
+            </SimpleMapLegendItem>
+          )
+        })}
+      </SimpleMapLegend>
       <ComposableMap
         projectionConfig={{
             center: [71.5, 38.8],
@@ -130,7 +139,7 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
               key={id}
               coordinates={[lng, lat]}
               onMouseOver={() => openPopup(id)}
-              onMouseOut={() => {}}
+              onMouseOut={() => {setPopup(false)}}
             >
               <circle fill={color} stroke="#FFF" r={circleScale(people)} />
             </Marker>
@@ -138,7 +147,9 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
           })}
         </ZoomableGroup>
       </ComposableMap>
-      <SimpleMapPopup />
+      <SimpleMapPopup isActive={ popup } style={{top: mouse.y+"px", left: mouse.x+"px"}}>
+        {popupContent}
+      </SimpleMapPopup>
     </SimpleMapContainer>
   )
 }

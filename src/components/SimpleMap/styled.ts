@@ -32,11 +32,12 @@ export const  SimpleMapLegendItem = styled.div<{ color: string }>`
   }
 `
 
-export const SimpleMapPopup = styled.div`
-  display: none;
+export const SimpleMapPopup = styled.div<{ isActive: boolean }>`
+  display: ${(props) => (props.isActive ? "block" : "none" )};
   position: absolute;
-  width: 212px;
+  max-width: 212px;
   padding: 12px;
   background-color: rgba(255,255,255,0.2);
   color: white;
+  border-radius: 5px;
 `
