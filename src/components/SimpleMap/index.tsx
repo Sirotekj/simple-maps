@@ -6,7 +6,7 @@ import {
   ZoomableGroup,
   Marker
 } from "react-simple-maps"
-import { SimpleMapContainer, SimpleMapPopup } from './styled'
+import { SimpleMapContainer, SimpleMapLegend, SimpleMapLegendItem, SimpleMapPopup } from './styled'
 
 type Texts = {
   id: number
@@ -37,7 +37,7 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
       lng: 71.5516857,
       people: 17,
       date: "unknown date",
-      color: "rgba(125,22,29,0.3)"
+      color: "rgba(100,100,100,0.6)"
     },{
       id: 2,
       city:"Rushon",
@@ -83,6 +83,10 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
 
   const [popup, setPopup] = useState(false)
 
+  const openPopup = (id:number) => {
+    console.log(id)
+  }
+
   const maxScale = 46;
   const dataObjectScales = dataObject.map((scale) => scale.people)
   const maxValue = Math.max(...dataObjectScales)
@@ -97,6 +101,15 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
 
   return (
     <SimpleMapContainer>
+    <SimpleMapLegend>
+      {dataObject.map(({ id, date, color }) => {
+        return(
+          <SimpleMapLegendItem key={id} color={ color }>
+            {date}
+          </SimpleMapLegendItem>
+        )
+      })}
+    </SimpleMapLegend>
       <ComposableMap
         projectionConfig={{
             center: [71.5, 38.8],
@@ -111,11 +124,14 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
               ))
             }
           </Geographies>
-          {dataObject.map(({ id, city, lng, lat, people, color }) => {
+          {dataObject.map(({ id, city, lng, lat, people, date, color }) => {
           return (
-            <Marker key={id} coordinates={[lng, lat]} onMouseEnter={() => {
-                    setTooltipContent(`${city}`);
-                  }}>
+            <Marker
+              key={id}
+              coordinates={[lng, lat]}
+              onMouseOver={() => openPopup(id)}
+              onMouseOut={() => {}}
+            >
               <circle fill={color} stroke="#FFF" r={circleScale(people)} />
             </Marker>
             );
