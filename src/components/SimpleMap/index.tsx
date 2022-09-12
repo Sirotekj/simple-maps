@@ -30,6 +30,8 @@ const geoUrl = "https://docs.rferl.org/Infographics/2022/2022_09/Tajikistan_GBAO
 
 const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
 
+  const months_arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
   const dataObject = [
     {
       id: 1,
@@ -114,7 +116,7 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
         {dataObject.map(({ id, date, color }) => {
           return(
             <SimpleMapLegendItem key={id} color={ color }>
-              {date}
+              {date=="unknown date"?date:months_arr[Number(date.split("/")[0])-1]}
             </SimpleMapLegendItem>
           )
         })}
@@ -148,7 +150,9 @@ const SimpleMap: FC<Props> = ({ setTooltipContent }) => {
         </ZoomableGroup>
       </ComposableMap>
       <SimpleMapPopup isActive={ popup } style={{top: mouse.y+"px", left: mouse.x+"px"}}>
+        <div>
         {popupContent}
+        </div>
       </SimpleMapPopup>
     </SimpleMapContainer>
   )
