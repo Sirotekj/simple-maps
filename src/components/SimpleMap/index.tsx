@@ -176,8 +176,11 @@ const SimpleMap = () => {
         style={{
           top: mouse.y+"px",
           left:
-            
+            mouse.x!<window.innerWidth-118 && mouse.x!>118
+            ?
             mouse.x+"px"
+            :
+            mouse.x!<118?"118px":window.innerWidth-118+"px"
         }}
         >
         <div dangerouslySetInnerHTML={{__html:popupContent}}>
