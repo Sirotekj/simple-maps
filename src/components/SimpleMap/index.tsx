@@ -135,8 +135,8 @@ const SimpleMap = () => {
       <SimpleMapLegendItem color={ dataObject[1].color }>
         {monthsArr[Number(dataObject[1].date.split("-")[1])-1]+" " + dataObject[1].date.split("-")[2]}
       </SimpleMapLegendItem>
-      <SimpleMapLegendItem color={ dataObject[2].color }>
-        {monthsArr[Number(dataObject[2].date.split("-")[1])-1]+" " + dataObject[2].date.split("-")[2]}
+      <SimpleMapLegendItem color={ dataObject[4].color }>
+        {monthsArr[Number(dataObject[4].date.split("-")[1])-1]+" " + dataObject[4].date.split("-")[2]}
       </SimpleMapLegendItem>
       <SimpleMapLegendItem color={ dataObject[0].color }>
         {dataObject[0].date}
