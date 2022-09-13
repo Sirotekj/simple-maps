@@ -86,7 +86,6 @@ const SimpleMap = () => {
   const [popupContent, setPopupContent] = useState("");
 
   const openPopup = (id:number) => {
-    console.log(id)
     setPopup(true);
     setPopupContent(
       dataObject[(id-1)].city +
@@ -117,13 +116,31 @@ const SimpleMap = () => {
   return (
     <>
     <SimpleMapLegend>
-      {dataObject.map(({ id, date, color }) => {
+      {/*dataObject.map(({ id, date, color }) => {
         return(
           <SimpleMapLegendItem key={id} color={ color }>
             {date=="unknown date"?date:monthsArr[Number(date.split("-")[1])-1]+ " " + date.split("-")[2]}
           </SimpleMapLegendItem>
         )
-      })}
+      })*/}
+      <SimpleMapLegendItem color={ dataObject[2].color }>
+        {monthsArr[Number(dataObject[2].date.split("-")[1])-1]+" " + dataObject[2].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[3].color }>
+        {monthsArr[Number(dataObject[3].date.split("-")[1])-1]+" " + dataObject[3].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[5].color }>
+        {monthsArr[Number(dataObject[5].date.split("-")[1])-1]+" " + dataObject[5].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[1].color }>
+        {monthsArr[Number(dataObject[1].date.split("-")[1])-1]+" " + dataObject[1].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[2].color }>
+        {monthsArr[Number(dataObject[2].date.split("-")[1])-1]+" " + dataObject[2].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[0].color }>
+        {dataObject[0].date}
+      </SimpleMapLegendItem>
     </SimpleMapLegend>
     <SimpleMapContainer ref={ref}>
       <ComposableMap
@@ -154,7 +171,15 @@ const SimpleMap = () => {
           })}
         </ZoomableGroup>
       </ComposableMap>
-      <SimpleMapPopup isActive={ popup } style={{top: mouse.y+"px", left: mouse.x+"px"}}>
+      <SimpleMapPopup
+        isActive={ popup }
+        style={{
+          top: mouse.y+"px",
+          left:
+            
+            mouse.x+"px"
+        }}
+        >
         <div dangerouslySetInnerHTML={{__html:popupContent}}>
         </div>
       </SimpleMapPopup>

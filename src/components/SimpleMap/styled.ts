@@ -18,6 +18,7 @@ export const  SimpleMapLegend = styled.div`
   position: relative;
   padding: 4px 12px;
   display: flex;
+  flex-wrap: wrap;
   background-color: #100F0F;
   color: white;
 `
