@@ -28,7 +28,7 @@ const geoUrl = "https://docs.rferl.org/Infographics/2022/2022_09/Tajikistan_GBAO
 const SimpleMap = () => {
 
   const monthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const popupText = "On / at least /&nbsp;people were known to have been killed in the crackdown in ";
+  const popupText = "On | at least |&nbsp;people were known to have been killed in the crackdown in ";
 
   const dataObject = [
     {
@@ -45,7 +45,7 @@ const SimpleMap = () => {
       lat: 37.9429401,
       lng: 71.5516857,
       people: 5,
-      date: "5/31/2022",
+      date: "2022-05-31",
       color: "#7D161D"//"rgba(125,22,29,0.5)"
     },{
       id: 3,
@@ -53,7 +53,7 @@ const SimpleMap = () => {
       lat: 37.9429401,
       lng: 71.5516857,
       people: 4,
-      date: "5/18/2022",
+      date: "2022-05-18",
       color: "#A71D26"//"rgba(125,22,29,0.7)"
     },{
       id: 4,
@@ -61,7 +61,7 @@ const SimpleMap = () => {
       lat: 37.9429401,
       lng: 71.5516857,
       people: 3,
-      date: "5/19/2022",
+      date: "2022-05-19",
       color:"#D12430"//"rgba(125,22,29,1)"
     },{
       id: 5,
@@ -69,7 +69,7 @@ const SimpleMap = () => {
       lat: 37.4761811,
       lng: 71.5424160,
       people: 2,
-      date: "6/12/2022",
+      date: "2022-06-12",
       color: "#EA6903"//"rgba(234,105,3,0.4)"
     },{
       id: 6,
@@ -77,7 +77,7 @@ const SimpleMap = () => {
       lat: 37.4761811,
       lng: 71.5424160,
       people: 1,
-      date: "5/22/2022",
+      date: "2022-05-22",
       color: "#EE8735"//"rgba(234,105,3,0.6)"
     }
   ] as Texts
@@ -91,11 +91,11 @@ const SimpleMap = () => {
     setPopupContent(
       dataObject[(id-1)].city +
       "<br>" +
-      popupText.split("/")[0] +
+      popupText.split("|")[0] +
       dataObject[(id-1)].date +
-      popupText.split("/")[1] +
+      popupText.split("|")[1] +
       dataObject[(id-1)].people +
-      popupText.split("/")[2] +
+      popupText.split("|")[2] +
       dataObject[(id-1)].city
     );
   }
@@ -115,16 +115,17 @@ const SimpleMap = () => {
   })
 
   return (
+    <>
+    <SimpleMapLegend>
+      {dataObject.map(({ id, date, color }) => {
+        return(
+          <SimpleMapLegendItem key={id} color={ color }>
+            {date=="unknown date"?date:monthsArr[Number(date.split("-")[1])-1]+ " " + date.split("-")[2]}
+          </SimpleMapLegendItem>
+        )
+      })}
+    </SimpleMapLegend>
     <SimpleMapContainer ref={ref}>
-      <SimpleMapLegend>
-        {dataObject.map(({ id, date, color }) => {
-          return(
-            <SimpleMapLegendItem key={id} color={ color }>
-              {date=="unknown date"?date:monthsArr[Number(date.split("/")[0])-1]+ " " + date.split("/")[1]}
-            </SimpleMapLegendItem>
-          )
-        })}
-      </SimpleMapLegend>
       <ComposableMap
         projectionConfig={{
             center: [71.5, 38.8],
@@ -158,6 +159,7 @@ const SimpleMap = () => {
         </div>
       </SimpleMapPopup>
     </SimpleMapContainer>
+    </>
   )
 }
 export default SimpleMap
