@@ -5,18 +5,21 @@ export const SimpleMapContainer = styled.div`
   width: 100%;
   background-color: #100F0F;
   svg {
-    fill: #1A1818;
-    stroke: #FFF;
+    g g {
+      fill: #1A1818;
+      stroke: #FFF;
+    }
     .rsm-marker {
       stroke-width: 0.5;
     }
   }
 `
 export const  SimpleMapLegend = styled.div`
-  position: absolute;
+  position: relative;
+  padding: 4px 12px;
   display: flex;
-  left: 12px;
-  top: 12px;
+  flex-wrap: wrap;
+  background-color: #100F0F;
   color: white;
 `
 export const  SimpleMapLegendItem = styled.div<{ color: string }>`

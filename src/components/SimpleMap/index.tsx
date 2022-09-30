@@ -28,7 +28,7 @@ const geoUrl = "https://docs.rferl.org/Infographics/2022/2022_09/Tajikistan_GBAO
 const SimpleMap = () => {
 
   const monthsArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const popupText = "On / at least /&nbsp;people were known to have been killed in the crackdown in ";
+  const popupText = "On | at least |&nbsp;people were known to have been killed in the crackdown in ";
 
   const dataObject = [
     {
@@ -86,16 +86,15 @@ const SimpleMap = () => {
   const [popupContent, setPopupContent] = useState("");
 
   const openPopup = (id:number) => {
-    console.log(id)
     setPopup(true);
     setPopupContent(
       dataObject[(id-1)].city +
       "<br>" +
-      popupText.split("/")[0] +
+      popupText.split("|")[0] +
       dataObject[(id-1)].date +
-      popupText.split("/")[1] +
+      popupText.split("|")[1] +
       dataObject[(id-1)].people +
-      popupText.split("/")[2] +
+      popupText.split("|")[2] +
       dataObject[(id-1)].city
     );
   }
@@ -115,16 +114,35 @@ const SimpleMap = () => {
   })
 
   return (
+    <>
+    <SimpleMapLegend>
+      {/*dataObject.map(({ id, date, color }) => {
+        return(
+          <SimpleMapLegendItem key={id} color={ color }>
+            {date=="unknown date"?date:monthsArr[Number(date.split("-")[1])-1]+ " " + date.split("-")[2]}
+          </SimpleMapLegendItem>
+        )
+      })*/}
+      <SimpleMapLegendItem color={ dataObject[2].color }>
+        {monthsArr[Number(dataObject[2].date.split("-")[1])-1]+" " + dataObject[2].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[3].color }>
+        {monthsArr[Number(dataObject[3].date.split("-")[1])-1]+" " + dataObject[3].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[5].color }>
+        {monthsArr[Number(dataObject[5].date.split("-")[1])-1]+" " + dataObject[5].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[1].color }>
+        {monthsArr[Number(dataObject[1].date.split("-")[1])-1]+" " + dataObject[1].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[4].color }>
+        {monthsArr[Number(dataObject[4].date.split("-")[1])-1]+" " + dataObject[4].date.split("-")[2]}
+      </SimpleMapLegendItem>
+      <SimpleMapLegendItem color={ dataObject[0].color }>
+        {dataObject[0].date}
+      </SimpleMapLegendItem>
+    </SimpleMapLegend>
     <SimpleMapContainer ref={ref}>
-      <SimpleMapLegend>
-        {dataObject.map(({ id, date, color }) => {
-          return(
-            <SimpleMapLegendItem key={id} color={ color }>
-              {date=="unknown date"?date:monthsArr[Number(date.split("-")[1])-1]+ " " + date.split("-")[2]}
-            </SimpleMapLegendItem>
-          )
-        })}
-      </SimpleMapLegend>
       <ComposableMap
         projectionConfig={{
             center: [71.5, 38.8],
@@ -153,11 +171,23 @@ const SimpleMap = () => {
           })}
         </ZoomableGroup>
       </ComposableMap>
-      <SimpleMapPopup isActive={ popup } style={{top: mouse.y+"px", left: mouse.x+"px"}}>
+      <SimpleMapPopup
+        isActive={ popup }
+        style={{
+          top: mouse.y+"px",
+          left:
+            mouse.x!<window.innerWidth-118 && mouse.x!>118
+            ?
+            mouse.x+"px"
+            :
+            mouse.x!<118?"118px":window.innerWidth-118+"px"
+        }}
+        >
         <div dangerouslySetInnerHTML={{__html:popupContent}}>
         </div>
       </SimpleMapPopup>
     </SimpleMapContainer>
+    </>
   )
 }
 export default SimpleMap
